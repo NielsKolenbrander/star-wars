@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import MasterJedi from '../views/MasterJediView.vue'
+import Padawan from '../views/PadawanView.vue'
+import SaberLayout from '../views/Layout.vue'
+import SaberDetails from '../views/Details.vue'
+import SaberRegister from '../views/Register.vue'
+import SaberEdit from '../views/Edit.vue'
+import NotFound from '../views/NotFound.vue'
 
 const routes = [
   {
@@ -8,12 +15,43 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/masterjedi',
+    name: 'masterjedi',
+    component: MasterJedi
+  },
+  {
+    path: '/padawan',
+    name: 'padawan',
+    component: Padawan,
+    props: route => ({ page: parseInt(route.query.page) || 1 })
+  },
+  {
+    path: '/padawan/:id',
+    name: 'saberLayout',
+    props: true,
+    component: SaberLayout,
+    children: [
+      {
+        path: '',
+        name: 'saberDetails',
+        component: SaberDetails
+      },
+      {
+        path: 'register',
+        name: 'saberRegister',
+        component: SaberRegister
+      },
+      {
+        path: 'edit',
+        name: 'saberEdit',
+        component: SaberEdit
+      },
+    ]
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
   }
 ]
 
